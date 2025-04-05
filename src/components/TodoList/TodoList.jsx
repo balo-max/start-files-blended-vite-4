@@ -1,10 +1,21 @@
-import Text from '../Text/Text';
+import { useSelector } from 'react-redux';
+import Grid from '../Grid/Grid';
+import GridItem from '../GridItem/GridItem'
+import Todo from '../Todo/Todo'
+
 
 const TodoList = () => {
+  const todos = useSelector(state => state.todos.items);
+  const searchValue = useSelector(state => state.filter.name);
+  const visibleTodos = todos.filter(todo => todo.text.toLowerCase().includes(searchValue.toLowerCase()));
+
   return (
-    <>
-      <Text textAlign="center">We did not find any todo😯</Text>
-    </>
+    <Grid>
+      {visibleTodos.map((todo, index) => (
+        <GridItem key={todo.id}>
+          <Todo todo={todo} counter={index + 1} />
+        </GridItem>))}
+    </Grid>
   );
 };
 
